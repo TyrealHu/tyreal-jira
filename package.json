@@ -46,12 +46,12 @@
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
+    "@types/qs": "^6.9.6",
     "eslint-config-prettier": "^8.3.0",
     "husky": ">=6",
     "json-server": "^0.16.3",
     "lint-staged": ">=10",
-    "prettier": "^2.2.1",
-    "qs": "^6.7.0"
+    "prettier": "^2.2.1"
   },
   "lint-staged": {
     "*.{js,css,md,ts,tsx}": "prettier --write"
