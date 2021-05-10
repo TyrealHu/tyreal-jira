@@ -3,6 +3,7 @@ import { List } from "./list";
 import * as qs from "qs";
 import { useEffect, useState } from "react";
 import { cleanObject, useMount, useDebounce } from "utils";
+import { useAuth } from "../../context/auth-context";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -11,6 +12,8 @@ export const ProjectList = () => {
     name: "",
     personId: "",
   });
+
+  const { user } = useAuth();
 
   const debounceParam = useDebounce(param, 200);
 
