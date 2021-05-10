@@ -30,3 +30,31 @@ export const useDebounce = <T>(value: T, delay?: number): T => {
 
   return debounceValue;
 };
+
+interface useArrayRet<T> {
+  value: T[];
+  clear: () => void;
+  removeIndex: (index: number) => void;
+  add: (value: T) => void;
+}
+
+export const useArray = <T>(value: T[]): useArrayRet<T> => {
+  const [arr, setArr] = useState(value);
+  function add(value: T) {
+    setArr([...arr, value]);
+  }
+  function clear() {
+    setArr([]);
+  }
+  function removeIndex(index: number) {
+    let _arr = [...arr];
+    _arr.splice(index, 1);
+    setArr(_arr);
+  }
+  return {
+    value: arr,
+    add,
+    clear,
+    removeIndex,
+  };
+};
