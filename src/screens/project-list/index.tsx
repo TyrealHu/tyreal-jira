@@ -1,11 +1,8 @@
 import { SearchPanel } from "./search-panel";
 import { List } from "./list";
-import * as qs from "qs";
 import { useEffect, useState } from "react";
 import { cleanObject, useMount, useDebounce } from "utils";
-import { useAuth } from "../../context/auth-context";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { useTFetch } from "../../utils/http";
 
 export const ProjectList = () => {
   const [param, setParam] = useState({
@@ -13,7 +10,7 @@ export const ProjectList = () => {
     personId: "",
   });
 
-  const { user } = useAuth();
+  const tFetch = useTFetch();
 
   const debounceParam = useDebounce(param, 200);
 
@@ -21,23 +18,14 @@ export const ProjectList = () => {
 
   const [list, setList] = useState([]);
 
-  useMount(() => {
-    fetch(`${apiUrl}/users`).then(async (response) => {
-      if (response.ok) {
-        let users = await response.json();
-        setUsers(users);
-      }
-    });
+  useMount(async () => {
+    let users = await tFetch("users");
+    setUsers(users);
   });
 
   useEffect(() => {
-    fetch(
-      `${apiUrl}/projects?${qs.stringify(cleanObject(debounceParam))}`
-    ).then(async (response) => {
-      if (response.ok) {
-        let list = await response.json();
-        setList(list);
-      }
+    tFetch("projects", { data: cleanObject(debounceParam) }).then((list) => {
+      setList(list);
     });
   }, [debounceParam]);
 
