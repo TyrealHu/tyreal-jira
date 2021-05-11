@@ -5,13 +5,13 @@ import { useAuth } from "../context/auth-context";
 const apiUrl = process.env.REACT_APP_API_URL;
 
 interface TFetchConfig extends RequestInit {
-  data?: object;
-  token?: string;
+  data: object;
+  token: string;
 }
 
 export const tFetch = (
   endpoint: string,
-  { data, token, headers, ...otherConfig }: TFetchConfig = {}
+  { data, token, headers, ...otherConfig }: Partial<TFetchConfig> = {}
 ) => {
   const config = {
     method: otherConfig.method ? otherConfig.method : "GET",
