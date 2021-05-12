@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import { Form, Input, Select } from "antd";
 
 export interface User {
@@ -20,9 +21,10 @@ interface SearchPanelProps {
 
 export const SearchPanel = ({ param, setParam, users }: SearchPanelProps) => {
   return (
-    <Form>
-      <div>
+    <Form css={{ marginBottom: "2rem" }} layout={"inline"}>
+      <Form.Item>
         <Input
+          placeholder={"项目名"}
           type="text"
           value={param.name}
           onChange={(event) => {
@@ -32,6 +34,8 @@ export const SearchPanel = ({ param, setParam, users }: SearchPanelProps) => {
             });
           }}
         />
+      </Form.Item>
+      <Form.Item>
         <Select
           value={param.personId}
           onChange={(value) =>
@@ -50,7 +54,7 @@ export const SearchPanel = ({ param, setParam, users }: SearchPanelProps) => {
             );
           })}
         </Select>
-      </div>
+      </Form.Item>
     </Form>
   );
 };
