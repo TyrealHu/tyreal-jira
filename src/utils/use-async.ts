@@ -12,7 +12,16 @@ const defaultState: State<null> = {
   state: "idle",
 };
 
-export const useAsync = <T>(initState?: State<T>) => {
+const defaultConfig = {
+  throwOnError: false,
+};
+
+export const useAsync = <T>(
+  initState?: State<T>,
+  initConfig?: typeof defaultConfig
+) => {
+  const config = { ...defaultConfig, ...initConfig };
+
   const [state, setState] = useState({
     ...defaultState,
     ...initState,
@@ -39,13 +48,16 @@ export const useAsync = <T>(initState?: State<T>) => {
       throw new Error("请传入promise对象");
     }
     setState({ ...state, state: "loading" });
-    promise
+    return promise
       .then((data) => {
         setData(data);
         return data;
       })
       .catch((error) => {
         setError(error);
+        if (config.throwOnError) {
+          return Promise.reject(error);
+        }
         return error;
       });
   };

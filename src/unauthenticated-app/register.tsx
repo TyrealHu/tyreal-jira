@@ -10,9 +10,9 @@ export const RegisterScreen = ({
 }) => {
   const { register } = useAuth();
 
-  const { run, isLoading } = useAsync();
+  const { run, isLoading } = useAsync(undefined, { throwOnError: true });
 
-  const handleSubmit = ({
+  const handleSubmit = async ({
     cpassword,
     ...values
   }: {
@@ -24,7 +24,11 @@ export const RegisterScreen = ({
       onError(new Error("请确保两次输入的密码相等"));
       return;
     }
-    run(register(values).catch(onError));
+    try {
+      await run(register(values));
+    } catch (e) {
+      onError(e);
+    }
   };
 
   return (
