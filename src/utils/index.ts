@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 
 export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
+export const isVoid = (value: unknown) =>
+  value === undefined || value === null || value === "";
 
-export const cleanObject = (object: object) => {
+export const cleanObject = (object: { [key: string]: unknown }) => {
   let result: any = { ...object };
   Object.keys(result).forEach((key) => {
     let value = result[key];
-    if (isFalsy(value)) {
+    if (isVoid(value)) {
       delete result[key];
     }
   });
@@ -17,6 +19,7 @@ export const cleanObject = (object: object) => {
 export const useMount = (callBack: () => void) => {
   useEffect(() => {
     callBack();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 
