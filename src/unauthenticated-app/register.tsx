@@ -2,7 +2,6 @@ import { useAuth } from "../context/auth-context";
 import { Form, Input } from "antd";
 import { LongButton } from "./index";
 import { useAsync } from "../utils/use-async";
-import { useDocumentTitle } from "../utils";
 
 export const RegisterScreen = ({
   onError,
@@ -12,8 +11,6 @@ export const RegisterScreen = ({
   const { register } = useAuth();
 
   const { run, isLoading } = useAsync(undefined, { throwOnError: true });
-
-  useDocumentTitle("请注册", false);
 
   const handleSubmit = async ({
     cpassword,
