@@ -2,6 +2,7 @@ import { useAuth } from "../context/auth-context";
 import { Form, Input } from "antd";
 import { LongButton } from "./index";
 import { useAsync } from "../utils/use-async";
+import { useDocumentTitle } from "../utils";
 
 export const LoginScreen = ({
   onError,
@@ -11,6 +12,8 @@ export const LoginScreen = ({
   const { login } = useAuth();
 
   const { run, isLoading } = useAsync(undefined, { throwOnError: true });
+
+  useDocumentTitle("请登录", false);
 
   const handleSubmit = async (values: {
     username: string;

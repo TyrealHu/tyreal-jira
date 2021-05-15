@@ -61,3 +61,18 @@ export const useArray = <T>(value: T[]): useArrayRet<T> => {
     removeIndex,
   };
 };
+
+export const useDocumentTitle = (title: string, keepAlive: boolean = true) => {
+  const oldTitle = document.title;
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
+
+  useEffect(() => {
+    if (!keepAlive) {
+      return () => {
+        document.title = oldTitle;
+      };
+    }
+  }, []);
+};

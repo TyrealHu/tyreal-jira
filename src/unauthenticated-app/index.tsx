@@ -6,6 +6,7 @@ import styled from "@emotion/styled";
 import logo from "assets/logo.svg";
 import left from "assets/left.svg";
 import right from "assets/right.svg";
+import { Helmet } from "react-helmet";
 
 export const UnauthenticatedApp = () => {
   const [isLogin, setIsLogin] = useState(true);
