@@ -15,9 +15,9 @@ export const ProjectList = () => {
 
   const debounceParam = useDebounce(param, 200);
 
-  const { error, data: list, isLoading } = useProjects(debounceParam);
-
   const { data: users } = useUsers();
+
+  const { error, data: list, isLoading } = useProjects(debounceParam);
 
   return (
     <Container>

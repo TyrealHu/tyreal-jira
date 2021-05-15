@@ -51,7 +51,7 @@ export const RegisterScreen = ({
       >
         <Input
           placeholder={"请再次输入密码"}
-          type={"cpassword"}
+          type={"password"}
           id={"cpassword"}
         />
       </Form.Item>

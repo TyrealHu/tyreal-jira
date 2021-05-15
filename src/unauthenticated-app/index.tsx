@@ -27,7 +27,13 @@ export const UnauthenticatedApp = () => {
           <RegisterScreen onError={setError} />
         )}
         <Divider />
-        <Button type={"link"} onClick={() => setIsLogin(!isLogin)}>
+        <Button
+          type={"link"}
+          onClick={() => {
+            setError(null);
+            setIsLogin(!isLogin);
+          }}
+        >
           {!isLogin ? "已经有账号了，立即登录！" : "还没有账号？立即注册！"}
         </Button>
       </ShadowCard>
