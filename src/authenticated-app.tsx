@@ -34,7 +34,9 @@ const PageHeader = () => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
+        <Button type={"link"} onClick={toRootRoute}>
+          <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
+        </Button>
         <h2>项目</h2>
         <h2>用户</h2>
       </HeaderLeft>
@@ -59,6 +61,9 @@ const PageHeader = () => {
     </Header>
   );
 };
+
+export const toRootRoute = () =>
+  (window.location.href = window.location.origin);
 
 const Header = styled(Row)`
   padding: 3.2rem;
