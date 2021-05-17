@@ -5,10 +5,10 @@ import styled from "@emotion/styled";
 import { Typography } from "antd";
 import { useProjects } from "./project";
 import { useUsers } from "./user";
-import { useUrlQueryParam } from "../../utils/url";
+import { useProjectsSearchParams } from "./util";
 
 export const ProjectList = () => {
-  const [param, setParam] = useUrlQueryParam(["name", "personId"]);
+  const [param, setParam] = useProjectsSearchParams();
 
   useDocumentTitle("项目管理", false);
 
@@ -29,6 +29,8 @@ export const ProjectList = () => {
     </Container>
   );
 };
+
+ProjectList.whyDidYouRender = true;
 
 const Container = styled.div`
   padding: 3.2rem;
