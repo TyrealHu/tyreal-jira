@@ -1,17 +1,14 @@
 import { SearchPanel } from "./search-panel";
 import { List } from "./list";
-import { useState } from "react";
 import { useDebounce, useDocumentTitle } from "utils";
 import styled from "@emotion/styled";
 import { Typography } from "antd";
 import { useProjects } from "./project";
 import { useUsers } from "./user";
+import { useUrlQueryParam } from "../../utils/url";
 
 export const ProjectList = () => {
-  const [param, setParam] = useState({
-    name: "",
-    personId: "",
-  });
+  const [param, setParam] = useUrlQueryParam(["name", "personId"]);
 
   useDocumentTitle("项目管理", false);
 
