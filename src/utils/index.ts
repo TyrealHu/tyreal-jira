@@ -76,3 +76,14 @@ export const useDocumentTitle = (title: string, keepAlive: boolean = true) => {
     }
   }, [keepAlive, oldTitle]);
 };
+
+export const useMountedRef = () => {
+  const mountedRef = useRef(false);
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  });
+  return mountedRef;
+};
