@@ -44,6 +44,8 @@ export const UnauthenticatedApp = () => {
   );
 };
 
+UnauthenticatedApp.whyDidYouRender = true;
+
 export const LongButton = styled(Button)`
   width: 100%;
 `;

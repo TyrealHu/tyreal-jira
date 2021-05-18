@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { Form, Input, Select } from "antd";
-import { IdSelect } from "../../components/id-select";
+import { Form, Input } from "antd";
 import { Project } from "./list";
 import { UserSelect } from "../../components/user-select";
 

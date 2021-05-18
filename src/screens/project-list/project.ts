@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { cleanObject } from "../../utils";
 import { useAsync } from "../../utils/use-async";
 import { Project } from "./list";
@@ -7,12 +7,13 @@ import { useTFetch } from "../../utils/http";
 export const useProjects = (param?: Partial<Project>) => {
   const tFetch = useTFetch();
   const { run, ...result } = useAsync<Project[]>();
+  let tFetchFunc = useCallback(
+    () => tFetch("projects", { data: cleanObject(param || {}) }),
+    [param, tFetch]
+  );
   useEffect(() => {
-    let tFetchFunc = () =>
-      tFetch("projects", { data: cleanObject(param || {}) });
     run(tFetchFunc(), { retry: tFetchFunc });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [param]);
+  }, [param, run, tFetchFunc]);
   return result;
 };
 
