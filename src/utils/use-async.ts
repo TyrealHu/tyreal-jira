@@ -27,6 +27,8 @@ export const useAsync = <T>(
     ...initState,
   });
 
+  const [retry, setRetry] = useState(() => () => {});
+
   const setData = (data: T) => {
     setState({
       data,
@@ -43,11 +45,19 @@ export const useAsync = <T>(
     });
   };
 
-  const run = (promise: Promise<T>) => {
+  const run = (
+    promise: Promise<T>,
+    runConfig?: { retry: () => Promise<T> }
+  ) => {
     if (!promise || !promise.then) {
       throw new Error("请传入promise对象");
     }
     setState({ ...state, state: "loading" });
+    setRetry(() => () => {
+      if (runConfig) {
+        run(runConfig.retry(), runConfig);
+      }
+    });
     return promise
       .then((data) => {
         setData(data);
@@ -68,6 +78,7 @@ export const useAsync = <T>(
     isSuccess: state.state === "success",
     isError: state.state === "error",
     run,
+    retry,
     setData,
     setError,
     ...state,

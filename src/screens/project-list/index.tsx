@@ -16,7 +16,7 @@ export const ProjectList = () => {
 
   const { data: users } = useUsers();
 
-  const { error, data: list, isLoading } = useProjects(debounceParam);
+  const { error, data: list, isLoading, retry } = useProjects(debounceParam);
 
   return (
     <Container>
@@ -25,7 +25,12 @@ export const ProjectList = () => {
       {error ? (
         <Typography.Text type={"danger"}>{error.message}</Typography.Text>
       ) : null}
-      <List users={users || []} dataSource={list || []} loading={isLoading} />
+      <List
+        retry={retry}
+        users={users || []}
+        dataSource={list || []}
+        loading={isLoading}
+      />
     </Container>
   );
 };
