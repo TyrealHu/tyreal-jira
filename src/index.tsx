@@ -5,15 +5,16 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { DevTools, loadServer } from "jira-dev-tool";
 import "antd/dist/antd.less";
-import { AppProviders } from "./context";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 loadServer(() => {
   ReactDOM.render(
     <React.StrictMode>
-      <AppProviders>
-        <DevTools />
+      <DevTools />
+      <Provider store={store}>
         <App />
-      </AppProviders>
+      </Provider>
     </React.StrictMode>,
     document.getElementById("root")
   );

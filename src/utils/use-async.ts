@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useReducer, useState } from "react";
 import { useMountedRef } from "./index";
 
 interface State<T> {
@@ -17,39 +17,51 @@ const defaultConfig = {
   throwOnError: false,
 };
 
+const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
+  const mountedRef = useMountedRef();
+
+  return useCallback(
+    (...args: T[]) => (mountedRef.current ? dispatch(...args) : undefined),
+    [dispatch, mountedRef]
+  );
+};
+
 export const useAsync = <T>(
   initState?: State<T>,
   initConfig?: typeof defaultConfig
 ) => {
   const config = { ...defaultConfig, ...initConfig };
 
-  const [state, setState] = useState({
-    ...defaultState,
-    ...initState,
-  });
+  const [state, dispatch] = useReducer(
+    (state: State<T>, action: Partial<State<T>>) => ({ ...state, ...action }),
+    {
+      ...defaultState,
+      ...initState,
+    }
+  );
 
   const [retry, setRetry] = useState(() => () => {});
 
-  const mountedRef = useMountedRef();
+  const safeDispatch = useSafeDispatch(dispatch);
 
   const setData = useCallback(
     (data: T) =>
-      setState({
+      safeDispatch({
         data,
         error: null,
         state: "success",
       }),
-    []
+    [safeDispatch]
   );
 
   const setError = useCallback(
     (error: Error) =>
-      setState({
+      safeDispatch({
         error,
         data: null,
         state: "error",
       }),
-    []
+    [safeDispatch]
   );
 
   const run = useCallback(
@@ -57,7 +69,7 @@ export const useAsync = <T>(
       if (!promise || !promise.then) {
         throw new Error("请传入promise对象");
       }
-      setState((prevState) => ({ ...prevState, state: "loading" }));
+      safeDispatch({ state: "loading" });
       setRetry(() => () => {
         if (runConfig) {
           run(runConfig.retry(), runConfig);
@@ -65,7 +77,7 @@ export const useAsync = <T>(
       });
       return promise
         .then((data) => {
-          if (mountedRef.current) setData(data);
+          setData(data);
           return data;
         })
         .catch((error) => {
@@ -76,7 +88,7 @@ export const useAsync = <T>(
           return error;
         });
     },
-    [config.throwOnError, mountedRef, setData, setError]
+    [config.throwOnError, setData, setError, safeDispatch]
   );
 
   return {

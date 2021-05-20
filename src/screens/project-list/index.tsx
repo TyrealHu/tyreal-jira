@@ -6,9 +6,13 @@ import { Button, Row, Typography } from "antd";
 import { useProjects } from "./project";
 import { useUsers } from "./user";
 import { useProjectsSearchParams } from "./util";
+import { useDispatch } from "react-redux";
+import { projectListActions } from "./project-list.slice";
 
-export const ProjectList = ({ onOpen }: { onOpen: () => void }) => {
+export const ProjectList = () => {
   const [param, setParam] = useProjectsSearchParams();
+
+  const dispatch = useDispatch();
 
   useDocumentTitle("项目管理", false);
 
@@ -22,14 +26,15 @@ export const ProjectList = ({ onOpen }: { onOpen: () => void }) => {
     <Container>
       <Row>
         <h1>项目列表</h1>
-        <Button onClick={onOpen}>创建项目</Button>
+        <Button onClick={() => dispatch(projectListActions.openProjectModel())}>
+          创建项目
+        </Button>
       </Row>
       <SearchPanel param={param} setParam={setParam} users={users || []} />
       {error ? (
         <Typography.Text type={"danger"}>{error.message}</Typography.Text>
       ) : null}
       <List
-        onOpen={onOpen}
         retry={retry}
         users={users || []}
         dataSource={list || []}
