@@ -13,9 +13,9 @@ import { ProjectPopover } from "./components/project-popover";
 export const AuthenticatedApp = () => {
   return (
     <div>
-      <PageHeader />
-      <Main>
-        <Router>
+      <Router>
+        <PageHeader />
+        <Main>
           <Routes>
             <Route path={"/projects"} element={<ProjectList />} />
             <Route
@@ -24,9 +24,9 @@ export const AuthenticatedApp = () => {
             />
             <Navigate to={"/projects"} />
           </Routes>
-        </Router>
-      </Main>
-      <ProjectModel />
+        </Main>
+        <ProjectModel />
+      </Router>
     </div>
   );
 };
@@ -85,5 +85,5 @@ const HeaderLeft = styled(Row)``;
 const HeaderRight = styled.div``;
 
 const Main = styled.main`
-  height: calc(100vh - 6rem);
+  height: calc(100vh - 6rem);x
 `;

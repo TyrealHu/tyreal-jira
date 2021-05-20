@@ -2,19 +2,18 @@ import { SearchPanel } from "./search-panel";
 import { List } from "./list";
 import { useDebounce, useDocumentTitle } from "utils";
 import styled from "@emotion/styled";
-import { Button, Row, Typography } from "antd";
+import { Row, Typography } from "antd";
 import { useProjects } from "./project";
 import { useUsers } from "./user";
-import { useProjectsSearchParams } from "./util";
-import { useDispatch } from "react-redux";
-import { projectListActions } from "./project-list.slice";
+import { useProjectModel, useProjectsSearchParams } from "./util";
+import { ButtonNoPadding } from "../../components/lib";
 
 export const ProjectList = () => {
   const [param, setParam] = useProjectsSearchParams();
 
-  const dispatch = useDispatch();
-
   useDocumentTitle("项目管理", false);
+
+  const { open } = useProjectModel();
 
   const debounceParam = useDebounce(param, 200);
 
@@ -24,11 +23,11 @@ export const ProjectList = () => {
 
   return (
     <Container>
-      <Row>
+      <Row style={{ display: "flex", justifyContent: "space-between" }}>
         <h1>项目列表</h1>
-        <Button onClick={() => dispatch(projectListActions.openProjectModel())}>
+        <ButtonNoPadding type={"link"} onClick={open}>
           创建项目
-        </Button>
+        </ButtonNoPadding>
       </Row>
       <SearchPanel param={param} setParam={setParam} users={users || []} />
       {error ? (
