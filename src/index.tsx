@@ -7,14 +7,25 @@ import { DevTools, loadServer } from "jira-dev-tool";
 import "antd/dist/antd.less";
 import { Provider } from "react-redux";
 import { store } from "./store";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 loadServer(() => {
   ReactDOM.render(
     <React.StrictMode>
       <DevTools />
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </QueryClientProvider>
     </React.StrictMode>,
     document.getElementById("root")
   );

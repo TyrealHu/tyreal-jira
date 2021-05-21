@@ -6,7 +6,7 @@ import { Row, Typography } from "antd";
 import { useProjects } from "./project";
 import { useUsers } from "./user";
 import { useProjectModel, useProjectsSearchParams } from "./util";
-import { ButtonNoPadding } from "../../components/lib";
+import { ButtonNoPadding, ErrorBox } from "../../components/lib";
 
 export const ProjectList = () => {
   const [param, setParam] = useProjectsSearchParams();
@@ -19,26 +19,19 @@ export const ProjectList = () => {
 
   const { data: users } = useUsers();
 
-  const { error, data: list, isLoading, retry } = useProjects(debounceParam);
+  const { error, data: list, isLoading } = useProjects(debounceParam);
 
   return (
     <Container>
       <Row style={{ display: "flex", justifyContent: "space-between" }}>
         <h1>项目列表</h1>
-        <ButtonNoPadding type={"link"} onClick={open}>
+        <ButtonNoPadding type={"link"} onClick={() => open()}>
           创建项目
         </ButtonNoPadding>
       </Row>
       <SearchPanel param={param} setParam={setParam} users={users || []} />
-      {error ? (
-        <Typography.Text type={"danger"}>{error.message}</Typography.Text>
-      ) : null}
-      <List
-        retry={retry}
-        users={users || []}
-        dataSource={list || []}
-        loading={isLoading}
-      />
+      <ErrorBox error={error} />
+      <List users={users || []} dataSource={list || []} loading={isLoading} />
     </Container>
   );
 };
