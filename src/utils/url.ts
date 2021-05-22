@@ -3,7 +3,8 @@ import { useMemo } from "react";
 import { cleanObject } from "./index";
 
 export const useUrlQueryParam = <T extends string>(keys: T[]) => {
-  const [searchParams, setSearchParam] = useSearchParams();
+  const [searchParams] = useSearchParams();
+  const setSearchParams = useSetUrlSearchParam();
   const result = {};
   return [
     useMemo(
@@ -14,11 +15,7 @@ export const useUrlQueryParam = <T extends string>(keys: T[]) => {
       [searchParams]
     ),
     (params: Partial<{ [key in T]: unknown }>) => {
-      const _params = cleanObject({
-        ...Object.fromEntries(searchParams),
-        ...params,
-      }) as URLSearchParamsInit;
-      setSearchParam(_params);
+      return setSearchParams(params);
     },
   ] as const;
 };
