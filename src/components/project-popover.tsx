@@ -1,8 +1,8 @@
 import { Divider, List, Popover, Typography } from "antd";
-import { useProjects } from "../screens/project-list/project";
 import styled from "@emotion/styled";
 import { ButtonNoPadding } from "./lib";
 import { useProjectModel } from "../screens/project-list/util";
+import { useProjects } from "../utils/projects";
 
 export const ProjectPopover = () => {
   const { data: projects, isLoading } = useProjects();

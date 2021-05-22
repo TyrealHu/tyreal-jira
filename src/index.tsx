@@ -20,9 +20,9 @@ const queryClient = new QueryClient({
 loadServer(() => {
   ReactDOM.render(
     <React.StrictMode>
-      <DevTools />
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
+          <DevTools />
           <App />
         </Provider>
       </QueryClientProvider>

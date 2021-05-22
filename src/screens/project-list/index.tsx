@@ -3,10 +3,10 @@ import { List } from "./list";
 import { useDebounce, useDocumentTitle } from "utils";
 import styled from "@emotion/styled";
 import { Row, Typography } from "antd";
-import { useProjects } from "./project";
 import { useUsers } from "./user";
 import { useProjectModel, useProjectsSearchParams } from "./util";
 import { ButtonNoPadding, ErrorBox } from "../../components/lib";
+import { useProjects } from "../../utils/projects";
 
 export const ProjectList = () => {
   const [param, setParam] = useProjectsSearchParams();

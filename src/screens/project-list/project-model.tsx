@@ -1,16 +1,18 @@
 import { Button, Drawer, Form, Input, Spin } from "antd";
-import { useProjectModel } from "./util";
+import { useProjectModel, useProjectQueryKey } from "./util";
 import { UserSelect } from "../../components/user-select";
-import { useAddProject, useEditProject } from "./project";
 import { useEffect } from "react";
 import { ErrorBox } from "../../components/lib";
 import styled from "@emotion/styled";
+import { useAddProject, useEditProject } from "../../utils/projects";
 
 export const ProjectModel = () => {
   const { projectModelOpen, close, editProject, isLoading } = useProjectModel();
   const useMutateProject = !!editProject ? useEditProject : useAddProject;
   const title = !!editProject ? "编辑项目" : "创建项目";
-  const { mutateAsync, error, isLoading: mutateLoading } = useMutateProject();
+  const { mutateAsync, error, isLoading: mutateLoading } = useMutateProject(
+    useProjectQueryKey()
+  );
   const [form] = Form.useForm();
   const onFinish = (formValue: any) => {
     mutateAsync({ ...editProject, ...formValue }).then(() => {
