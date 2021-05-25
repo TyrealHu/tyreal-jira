@@ -10,7 +10,7 @@ export const Kanban = () => {
   const { data: kanbans } = useKanbans(useKanbansSearchParams());
   const { data: currentProject } = useProjectInUrl();
   return (
-    <div>
+    <Container>
       <h1>{currentProject?.name}看板</h1>
       <SearchPanel />
       <ColumnContainer>
@@ -18,13 +18,19 @@ export const Kanban = () => {
           return <KanbanColumn kanban={kanban} key={kanban.id} />;
         })}
       </ColumnContainer>
-    </div>
+    </Container>
   );
 };
 
 const ColumnContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  overflow: hidden;
-  margin-right: 2rem;
+  overflow-x: scroll;
+  flex: 1;
+`;
+
+const Container = styled.div`
+  padding: 3.2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 `;

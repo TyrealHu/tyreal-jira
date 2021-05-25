@@ -4,6 +4,7 @@ import { Row } from "../../components/lib";
 import { Button, Input } from "antd";
 import { UserSelect } from "../../components/user-select";
 import { TaskTypeSelect } from "../../components/task-type-select";
+import { debounce } from "../../utils";
 
 export const SearchPanel = () => {
   const searchParam = useTasksSearchParams();
@@ -23,7 +24,9 @@ export const SearchPanel = () => {
         style={{ width: "20rem" }}
         placeholder={"任务名"}
         value={searchParam.name}
-        onChange={(event) => setSearchParam({ name: event.target.value })}
+        onChange={(event) =>
+          debounce(setSearchParam({ name: event.target.value }), 50)
+        }
       />
       <UserSelect
         defaultOptionName={"经办人"}
