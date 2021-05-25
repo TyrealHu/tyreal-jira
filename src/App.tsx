@@ -9,7 +9,7 @@ import { bootstrap } from "./store/auth.slice";
 import { useAsync } from "./utils/use-async";
 import { useMount } from "./utils";
 import { useDispatch } from "react-redux";
-import { User } from "./screens/project-list/search-panel";
+import { User } from "./types";
 
 function App() {
   const { user } = useAuth();

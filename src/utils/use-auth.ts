@@ -2,7 +2,7 @@ import * as auth from "../store/auth.slice";
 import { AuthForm, selectUser } from "../store/auth.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
-import { User } from "../screens/project-list/search-panel";
+import { User } from "../types";
 
 export const useAuth = () => {
   const dispatch: (...args: unknown[]) => Promise<User> = useDispatch();

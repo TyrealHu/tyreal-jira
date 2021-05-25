@@ -1,8 +1,8 @@
 import { QueryKey, useMutation, useQuery } from "react-query";
-import { Project } from "../screens/project-list/list";
 import { useTFetch } from "./http";
 import { cleanObject } from "./index";
 import { useConfig } from "./use-optimistic-options";
+import { Project } from "../types";
 
 export const useProjects = (param?: Partial<Project>) => {
   const tFetch = useTFetch();

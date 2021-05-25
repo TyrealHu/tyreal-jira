@@ -9,6 +9,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { ProjectScreen } from "./screens/project";
 import { ProjectModel } from "./screens/project-list/project-model";
 import { ProjectPopover } from "./components/project-popover";
+import { useQueryClient } from "react-query";
 
 export const AuthenticatedApp = () => {
   return (
@@ -50,13 +51,19 @@ const PageHeader = () => {
 
 const User = () => {
   const { logout, user } = useAuth();
+  const queryClient = useQueryClient();
+
+  const userLogout = () => {
+    queryClient.clear();
+    logout();
+  };
 
   return (
     <Dropdown
       overlay={
         <Menu>
           <Menu.Item key={"logout"}>
-            <Button type={"link"} onClick={logout}>
+            <Button type={"link"} onClick={userLogout}>
               登出
             </Button>
           </Menu.Item>
