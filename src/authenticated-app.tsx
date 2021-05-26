@@ -92,6 +92,7 @@ const HeaderLeft = styled(Row)``;
 const HeaderRight = styled.div``;
 
 const Main = styled.main`
+  width: 100%;
   height: calc(100vh - 6rem);
   display: flex;
   overflow: hidden;
