@@ -1,3 +1,7 @@
+# tyreal-jira
+
+仿微软 jira 的 react 开发
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
