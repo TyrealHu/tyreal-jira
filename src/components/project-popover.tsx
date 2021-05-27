@@ -5,7 +5,7 @@ import { useProjectModel } from "../screens/project-list/util";
 import { useProjects } from "../utils/projects";
 
 export const ProjectPopover = () => {
-  const { data: projects, isLoading } = useProjects();
+  const { data: projects, refetch } = useProjects();
   const { open } = useProjectModel();
   const pinnedProjects = projects?.filter((project) => project.pin);
   console.log(pinnedProjects);
@@ -27,7 +27,11 @@ export const ProjectPopover = () => {
   );
 
   return (
-    <Popover placement={"bottom"} content={content}>
+    <Popover
+      onVisibleChange={() => refetch()}
+      placement={"bottom"}
+      content={content}
+    >
       <span>项目</span>
     </Popover>
   );

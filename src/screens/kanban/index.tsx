@@ -118,7 +118,7 @@ export const ColumnContainer = styled.div`
   flex: 1;
 `;
 
-const Container = styled.div`
+export const Container = styled.div`
   padding: 3.2rem;
   width: 100%;
   display: flex;
