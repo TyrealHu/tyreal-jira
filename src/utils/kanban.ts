@@ -1,8 +1,9 @@
 import { useTFetch } from "./http";
 import { QueryKey, useMutation, useQuery } from "react-query";
 import { cleanObject } from "./index";
-import { Kanban } from "../types";
+import { Kanban, SortProps } from "../types";
 import { useConfig } from "./use-optimistic-options";
+import { reorder } from "./reorder";
 
 export const useKanbans = (param?: Partial<Kanban>) => {
   const tFetch = useTFetch();
@@ -34,5 +35,18 @@ export const useDeleteKanban = (queryKey: QueryKey) => {
       queryKey,
       (target, old) => old?.filter((kanban) => kanban.id !== target.id) || []
     )
+  );
+};
+
+export const useReorderKanban = (queryKey: QueryKey) => {
+  const tFetch = useTFetch();
+  return useMutation(
+    (params: SortProps) => {
+      return tFetch(`kanbans/reorder`, {
+        data: params,
+        method: "POST",
+      });
+    },
+    useConfig(queryKey, (target, old) => reorder({ list: old, ...target }))
   );
 };

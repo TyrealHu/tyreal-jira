@@ -10,34 +10,47 @@ import { CreateTask } from "./create-task";
 import { Mark } from "./mark";
 import { useDeleteKanban } from "../../utils/kanban";
 import { ButtonNoPadding, Row } from "../../components/lib";
+import React from "react";
+import { Drag, Drop, DropChild } from "../../components/drag-and-drop";
 
-export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
+export const KanbanColumn = React.forwardRef<
+  HTMLDivElement,
+  { kanban: Kanban }
+>(({ kanban, ...props }, ref) => {
   const { data: allTasks } = useTasks(useTasksSearchParams());
   const currentTasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
   const { start } = useTaskModel();
   const { name: keyword } = useTasksSearchParams();
   return (
-    <Container>
+    <Container ref={ref} {...props}>
       <Row between={true}>
         <h3>{kanban.name}</h3>
-        <More kanban={kanban} />
+        <More kanban={kanban} key={kanban.id} />
       </Row>
       <TasksContainer>
-        {currentTasks?.map((task) => (
-          <Card
-            onClick={() => start(task.id)}
-            style={{ marginBottom: "0.5rem", cursor: "pointer" }}
-            key={task.id}
-          >
-            <Mark name={task.name} keyword={keyword} />
-            <TaskTypesIcon id={task.typeId} />
-          </Card>
-        ))}
+        <Drop droppableId={"" + kanban.id} type={"ROW"} direction={"vertical"}>
+          <DropChild style={{ minHeight: "5px" }}>
+            {currentTasks?.map((task, index) => (
+              <Drag draggableId={"task" + task.id} index={index} key={task.id}>
+                <div>
+                  <Card
+                    onClick={() => start(task.id)}
+                    style={{ marginBottom: "0.5rem", cursor: "pointer" }}
+                    key={task.id}
+                  >
+                    <Mark name={task.name} keyword={keyword} />
+                    <TaskTypesIcon id={task.typeId} />
+                  </Card>
+                </div>
+              </Drag>
+            ))}
+          </DropChild>
+        </Drop>
         <CreateTask kanbanId={kanban.id} />
       </TasksContainer>
     </Container>
   );
-};
+});
 
 const TaskTypesIcon = ({ id }: { id: number }) => {
   const { data: taskTypes } = useTaskTypes();

@@ -39,3 +39,11 @@ export interface TaskType {
   id: number;
   name: string;
 }
+
+export interface SortProps {
+  type: "before" | "after";
+  referenceId: number;
+  fromId: number;
+  fromKanbanId?: number;
+  toKanbanId?: number;
+}

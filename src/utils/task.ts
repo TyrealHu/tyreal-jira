@@ -1,8 +1,10 @@
 import { useTFetch } from "./http";
 import { QueryKey, useMutation, useQuery } from "react-query";
 import { cleanObject } from "./index";
-import { Project, Task } from "../types";
+import { Project, SortProps, Task } from "../types";
 import { useConfig } from "./use-optimistic-options";
+import { useTasksQueryKey, useTasksSearchParams } from "../screens/kanban/util";
+import { reorder } from "./reorder";
 
 export const useTasks = (param?: Partial<Task>) => {
   const tFetch = useTFetch();
@@ -59,5 +61,25 @@ export const useDeleteTask = (queryKey: QueryKey) => {
       queryKey,
       (target, old) => old?.filter((task) => task.id !== target.id) || []
     )
+  );
+};
+
+export const useReorderTask = (queryKey: QueryKey) => {
+  const tFetch = useTFetch();
+  return useMutation(
+    (params: SortProps) => {
+      return tFetch(`tasks/reorder`, {
+        data: params,
+        method: "POST",
+      });
+    },
+    useConfig(queryKey, (target, old) => {
+      const orderedList = reorder({ list: old, ...target }) as Task[];
+      return orderedList.map((item) => {
+        return item.id === target.fromId
+          ? { ...item, kanbanId: target.toKanbanId }
+          : item;
+      });
+    })
   );
 };
